@@ -1,4 +1,4 @@
-# ALOHA: A Low-cost Open-source Hardware System for Bimanual Teleoperation
+# ALOHA: A Low-cost Open-source Hardware System for Bimanual Teleoperation @ KETI
 
 #### Project Website: https://tonyzhaozh.github.io/aloha/
 
