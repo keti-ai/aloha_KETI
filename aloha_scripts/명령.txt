@@ -1,0 +1,1 @@
+python3 record_episodes.py --task_name aloha_move_glue

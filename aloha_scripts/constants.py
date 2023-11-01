@@ -1,11 +1,23 @@
 ### Task parameters
 
-DATA_DIR = '<put your data dir here>'
+DATA_DIR = 'data'
 TASK_CONFIGS = {
     'aloha_wear_shoe':{
         'dataset_dir': DATA_DIR + '/aloha_wear_shoe',
         'num_episodes': 50,
         'episode_len': 1000,
+        'camera_names': ['cam_high', 'cam_low', 'cam_left_wrist', 'cam_right_wrist']
+    },
+    'aloha_move_glue':{
+        'dataset_dir': DATA_DIR + '/aloha_move_glue',
+        'num_episodes': 10,
+        'episode_len': 800,
+        'camera_names': ['cam_high', 'cam_low', 'cam_left_wrist', 'cam_right_wrist']
+    },
+    'aloha_move_glue_random':{
+        'dataset_dir': DATA_DIR + '/aloha_move_glue_random',
+        'num_episodes': 10,
+        'episode_len': 800,
         'camera_names': ['cam_high', 'cam_low', 'cam_left_wrist', 'cam_right_wrist']
     },
 }

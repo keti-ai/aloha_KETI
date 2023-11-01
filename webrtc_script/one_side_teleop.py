@@ -50,6 +50,8 @@ def teleop(robot_side):
     prep_robots(master_bot, puppet_bot)
     press_to_start(master_bot)
 
+
+    ### TODO : sub robot topic and seperate
     ### Teleoperation loop
     gripper_command = JointSingleCommand(name="gripper")
     while True:

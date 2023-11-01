@@ -67,6 +67,6 @@ def teleop(robot_side):
 
 
 if __name__=='__main__':
-    side = sys.argv[1]
-    # side='left'
+    # side = sys.argv[1]
+    side='left'
     teleop(side)
