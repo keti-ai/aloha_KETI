@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
 import time
 import sys
 import IPython
+import rospy
+
 e = IPython.embed
 
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
@@ -13,11 +16,10 @@ class OneSideRobotRemoteControl:
     def __init__(self, robot_side, rate=30):
         self.robot_side = robot_side
         self.node_name = f'OneSideRobotRemoteControl_{robot_side}'
-        rospy.init_node(self.node_name)
-        self.rate = rospy.Rate(rate)  # 10 Hz
-
+        # rospy.init_node(self.node_name)
         self.puppet_bot = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper",
                                                   robot_name=f'puppet_{robot_side}', init_node=True)
+        self.rate = rospy.Rate(rate)  # 10 Hz
         self.gripper_command = JointSingleCommand(name="gripper")
         self.prep_robots()
 
