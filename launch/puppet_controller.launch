@@ -1,0 +1,15 @@
+<launch>
+
+  <node
+    name="puppet_left_remote_controller"
+    pkg="aloha"
+    type="robot_controller_node.py"
+    args="left"/>
+
+  <node
+    name="puppet_right_remote_controller"
+    pkg="aloha"
+    type="robot_controller_node.py"
+    args="left"/>
+
+</launch>
