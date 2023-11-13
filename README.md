@@ -1,5 +1,10 @@
 # ALOHA: A Low-cost Open-source Hardware System for Bimanual Teleoperation @ KETI
 
+## THIS VERSION NEED WebRTC
+
+
+
+
 #### Project Website: https://tonyzhaozh.github.io/aloha/
 
 This codebase contains implementation for teleoperation and data collection with the ALOHA hardware.
@@ -110,12 +115,10 @@ If no error message is showing up, the computer should be successfully connected
 - Make sure Dynamixel Wizard is disconnected, and no app is using webcam's stream. It will prevent ROS from connecting to
 these devices.
 
-### Software installation - Conda:
+### Software installation - venv:
 
-    conda create -n aloha python=3.8.10
-    conda activate aloha
-    pip install torchvision
-    pip install torch
+    python3 -m venv ./venv
+    source venv/bin/activate
     pip install pyquaternion
     pip install pyyaml
     pip install rospkg
@@ -127,6 +130,7 @@ these devices.
     pip install einops
     pip install packaging
     pip install h5py
+    pip install --trusted-host 175.126.123.199 --index-url http://175.126.123.199:7070 ketirtc
 
 ### Testing teleoperation
 
@@ -134,17 +138,14 @@ these devices.
 All robots will rise to a height that is easy for teleoperation.
 
     # ROS terminal
-    conda deactivate
     source /opt/ros/noetic/setup.sh && source ~/interbotix_ws/devel/setup.sh
     roslaunch aloha 4arms_teleop.launch
     
     # Right hand terminal
-    conda activate aloha
     cd ~/interbotix_ws/src/aloha/aloha_scripts
     python3 one_side_teleop.py right
     
     # Left hand terminal
-    conda activate aloha
     cd ~/interbotix_ws/src/aloha/aloha_scripts
     python3 one_side_teleop.py left
 
@@ -155,7 +156,6 @@ The teleoperation will start when the master side gripper is closed.
 
 To set up a new terminal, run:
 
-    conda activate aloha
     cd ~/interbotix_ws/src/aloha/aloha_scripts
 
 
