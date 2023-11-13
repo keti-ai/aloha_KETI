@@ -1,0 +1,42 @@
+alias eb='gedit ~/.bashrc'
+alias sb='source ~/.bashrc'
+alias cw='cd ~/interbotix_ws'
+alias cs='cd ~/interbotix_ws/src'
+alias cm='cd ~/interbotix_ws&& catkin_make'
+alias cds='source ~/interbotix_ws/devel/setup.bash'
+alias vip='cd ~/interbotix_ws/src/gui'
+
+alias smi='watch -n -0.1 nvidia-smi'
+
+alias ca='cd ~/workspace/act'
+alias dct='conda deactivate'
+alias aloha='conda activate aloha'
+
+alias lsusbb='ls /dev/ttyUSB* && ls /dev/ttyDXL_* && ls /dev/video* && ls /dev/CAM*'
+alias uusb='sudo chmod 777 /dev/ttyDXL_* && sudo chmod 777 /dev/CAM*'
+
+alias rule1='sudo gedit /etc/udev/rules.d/99-fixed-interbotix-udev.rules'
+alias rule2='sudo udevadm control --reload && sudo udevadm trigger'
+
+alias pl='ps -ef | grep python'
+
+alias arm4='roslaunch aloha 4arms_teleop.launch'
+alias arml='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 one_side_teleop.py left'
+alias armr='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 one_side_teleop.py right'
+alias arms='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 sleep.py'
+alias armrecord='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 record_episodes.py --task_name aloha_move_glue_random'
+alias ros_m='roslaunch aloha master_teleop.launch'
+alias ros_p='roslaunch aloha puppet_teleop.launch'
+
+alias act='python inference.py --task_name aloha_move_glue --ckpt_dir ckpt_231031 --policy_class ACT --kl_weight 10 --chunk_size 100 --hidden_dim 512 --batch_size 8 --dim_feedforward 3200 --num_epochs 2000 --lr 1e-5 --seed 0 --eval --temporal_agg'
+
+alias arm_m='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 teleop_master_both.py'
+alias arm_p='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 teleop_puppet_both.py'
+alias etom_p='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 tele_op_robot.py'
+alias etom_m='cd ~/interbotix_ws/src/aloha/aloha_scripts && python3 tele_operator.py'
+
+source /opt/ros/noetic/setup.bash
+source ~/interbotix_ws/devel/setup.bash
+
+export ROS_HOSTNAME=10.252.101.172
+export ROS_MASTER_URI=http://10.252.101.172:11311
