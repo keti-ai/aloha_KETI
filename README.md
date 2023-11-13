@@ -2,7 +2,20 @@
 
 ## THIS VERSION NEED WebRTC
 
+터미널 3개 필요
 
+PUPPET 측 로봇 실행
+현재 arm 장착된 컴퓨터에서만 실행가능 
+해당 명령을 각각의 터미널에서 순차적으로 실행
+
+터미널1 
+ros_p
+터미널2
+etom_p
+터미널3
+arm_p
+
+![Screenshot from 2023-11-13 13-27-49](https://github.com/keti-ai/aloha_KETI/assets/80864255/7498e7bf-acda-4115-bda1-4ff285041b98)
 
 
 #### Project Website: https://tonyzhaozh.github.io/aloha/
