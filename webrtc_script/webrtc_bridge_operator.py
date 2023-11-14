@@ -156,36 +156,37 @@ if __name__ == '__main__':
 
         bridgeNode = WebRtcBridgeOperator(robot_id, password, server_host=server_host, server_port=server_port, loop=event_loop)
 
-        from utils import json_to_joint_state, json_to_joint_group_command, json_to_joint_single_command
+        from utils import joint_state_to_json, json_to_joint_state, json_to_joint_group_command, \
+            json_to_joint_single_command
 
-        # bridgeNode.subscribe_local_topic(topic_name="/master_left/joint_states", value_type=JointState,
-        #                                  to_json_converter=joint_state_to_json)
+        bridgeNode.subscribe_local_topic(topic_name="/master_left/joint_states", value_type=JointState,
+                                         to_json_converter=joint_state_to_json)
+
         # topic_name="/master_left/joint_states"
         # publish_topic_name = f'/forward_{topic_name}'
         # bridgeNode.add_topic_publisher(topic_name=topic_name, new_topic_name=publish_topic_name, value_type=JointState, value_parser=json_to_joint_state)
         
-        topic_name="/puppet_left/joint_states"
-        publish_topic_name = f'/forward_{topic_name}'
-        bridgeNode.add_topic_publisher(topic_name=topic_name, 
-                                       new_topic_name=publish_topic_name, 
-                                       value_type=JointState, 
-                                       value_parser=json_to_joint_state)
-        
-
-        topic_name="/puppet_left/commands/joint_group"
-        publish_topic_name = f'/forward_{topic_name}'
-        bridgeNode.add_topic_publisher(topic_name=topic_name, 
-                                       new_topic_name=publish_topic_name, 
-                                       value_type=JointGroupCommand, 
-                                       value_parser=json_to_joint_group_command)
-        
-        topic_name="/puppet_left/commands/joint_signle"
-        publish_topic_name = f'/forward_{topic_name}'
-        bridgeNode.add_topic_publisher(topic_name=topic_name, 
-                                       new_topic_name=publish_topic_name, 
-                                       value_type=JointSingleCommand, 
-                                       value_parser=json_to_joint_single_command)
-        
+        # topic_name="/puppet_left/joint_states"
+        # publish_topic_name = f'/forward_{topic_name}'
+        # bridgeNode.add_topic_publisher(topic_name=topic_name,
+        #                                new_topic_name=publish_topic_name,
+        #                                value_type=JointState,
+        #                                value_parser=json_to_joint_state)
+        #
+        #
+        # topic_name="/puppet_left/commands/joint_group"
+        # publish_topic_name = f'/forward_{topic_name}'
+        # bridgeNode.add_topic_publisher(topic_name=topic_name,
+        #                                new_topic_name=publish_topic_name,
+        #                                value_type=JointGroupCommand,
+        #                                value_parser=json_to_joint_group_command)
+        #
+        # topic_name="/puppet_left/commands/joint_signle"
+        # publish_topic_name = f'/forward_{topic_name}'
+        # bridgeNode.add_topic_publisher(topic_name=topic_name,
+        #                                new_topic_name=publish_topic_name,
+        #                                value_type=JointSingleCommand,
+        #                                value_parser=json_to_joint_single_command)
 
         event_loop.run_until_complete(bridgeNode.run())
 
