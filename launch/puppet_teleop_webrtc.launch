@@ -115,6 +115,6 @@
     name="robot_webrtc_bridge"
     pkg="aloha"
     type="robot_webrtc_bridge.py"
-    args="syscon_aloha_puppet_P02 175.126.123.199 8180"/>
+    args="--robot_id syscon_aloha_puppet --server_host 175.126.123.199 --server_port 8180"/>
 
 </launch>

@@ -134,11 +134,19 @@ class WebRtcBridgeRobot:
     async def stop(self):
         self.user_clients_manager.stop()
 
+def get_arg(name, default=None):
+    args = rospy.myargv(argv=sys.argv)
+    arg_name = name
+    if arg_name in args:
+        arg_index = args.index(arg_name) + 1
+        return args[arg_index]
+    return default
+
 
 if __name__ == '__main__':
-    robot_id = sys.argv[1]
-    server_host = sys.argv[2]
-    server_port = sys.argv[3]
+    robot_id = get_arg('--robot_id', "syscon_aloha_puppet")
+    server_host = get_arg('--server_host', "localhost")
+    server_port = get_arg('--server_port', "8180")
 
     event_loop = asyncio.get_event_loop()
     bridgeNode = None
