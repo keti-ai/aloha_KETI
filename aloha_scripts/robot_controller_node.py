@@ -30,6 +30,12 @@ class OneSideRobotRemoteControl:
         self.puppet_bot.dxl.robot_set_operating_modes("single", "gripper", "current_based_position")
         torque_on(self.puppet_bot)
 
+        # move arms to starting position
+        start_arm_qpos = START_ARM_POSE[:6]
+        move_arms([self.puppet_bot], [start_arm_qpos], move_time=1)
+        # move grippers to starting position
+        move_grippers([self.puppet_bot], [PUPPET_GRIPPER_JOINT_CLOSE], move_time=0.5)
+
     def master_joint_states_updated(self, joint_states):
         rospy.loginfo(f"{self.node_name} joint_state updated: {joint_states}")
         master_state_joints = joint_states.position[:6]
@@ -43,8 +49,9 @@ class OneSideRobotRemoteControl:
 
     def run(self):
         rospy.Subscriber(f'/master_{self.robot_side}/joint_states', JointState, self.master_joint_states_updated)
-        while not rospy.is_shutdown():
-            self.rate.sleep()
+        # while not rospy.is_shutdown():
+        #     self.rate.sleep()
+        rospy.spin()
 
 
 if __name__ == '__main__':
