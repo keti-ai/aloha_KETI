@@ -16,12 +16,10 @@ class OneSideRobotRemoteControl:
     def __init__(self, robot_side, rate=30):
         self.robot_side = robot_side
         self.node_name = f'OneSideRobotRemoteControl_{robot_side}'
-        # rospy.init_node(self.node_name)
         self.puppet_bot = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper",
                                                   robot_name=f'puppet_{robot_side}', init_node=True)
         self.rate = rospy.Rate(rate)  # 10 Hz
         self.gripper_command = JointSingleCommand(name="gripper")
-        self.prep_robots()
 
     def prep_robots(self):
         # reboot gripper motors, and set operating modes for all motors
@@ -48,6 +46,8 @@ class OneSideRobotRemoteControl:
         self.puppet_bot.gripper.core.pub_single.publish(self.gripper_command)
 
     def run(self):
+        rospy.loginfo('Controller node run')
+        self.prep_robots()
         rospy.Subscriber(f'/master_{self.robot_side}/joint_states', JointState, self.master_joint_states_updated)
         # while not rospy.is_shutdown():
         #     self.rate.sleep()
@@ -56,5 +56,6 @@ class OneSideRobotRemoteControl:
 
 if __name__ == '__main__':
     side = sys.argv[1]
+    # side = 'right'
     ros_node = OneSideRobotRemoteControl(robot_side=side)
     ros_node.run()
