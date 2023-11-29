@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
 import time
 import sys
 import IPython
+import rospy
+
 e = IPython.embed
 
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
@@ -13,11 +16,10 @@ class OneSideRobotRemoteControl:
     def __init__(self, robot_side, rate=30):
         self.robot_side = robot_side
         self.node_name = f'OneSideRobotRemoteControl_{robot_side}'
-        rospy.init_node(self.node_name)
-        self.rate = rospy.Rate(rate)  # 10 Hz
-
+        # rospy.init_node(self.node_name)
         self.puppet_bot = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper",
                                                   robot_name=f'puppet_{robot_side}', init_node=True)
+        self.rate = rospy.Rate(rate)  # 10 Hz
         self.gripper_command = JointSingleCommand(name="gripper")
         self.prep_robots()
 
@@ -27,6 +29,12 @@ class OneSideRobotRemoteControl:
         self.puppet_bot.dxl.robot_set_operating_modes("group", "arm", "position")
         self.puppet_bot.dxl.robot_set_operating_modes("single", "gripper", "current_based_position")
         torque_on(self.puppet_bot)
+
+        # move arms to starting position
+        start_arm_qpos = START_ARM_POSE[:6]
+        move_arms([self.puppet_bot], [start_arm_qpos], move_time=1)
+        # move grippers to starting position
+        move_grippers([self.puppet_bot], [PUPPET_GRIPPER_JOINT_CLOSE], move_time=0.5)
 
     def master_joint_states_updated(self, joint_states):
         rospy.loginfo(f"{self.node_name} joint_state updated: {joint_states}")
@@ -41,8 +49,9 @@ class OneSideRobotRemoteControl:
 
     def run(self):
         rospy.Subscriber(f'/master_{self.robot_side}/joint_states', JointState, self.master_joint_states_updated)
-        while not rospy.is_shutdown():
-            self.rate.sleep()
+        # while not rospy.is_shutdown():
+        #     self.rate.sleep()
+        rospy.spin()
 
 
 if __name__ == '__main__':
