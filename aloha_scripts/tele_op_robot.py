@@ -7,7 +7,7 @@ from ketirtc_robot.camera.cv2_camera import CV2StreamCamera
 from ketirtc_robot.camera import get_local_stream_camera
 from ketirtc_robot.connection_manager import UserClientConnectionManager
 from ketirtc_robot.webrtc.webrtc_connection_manager import WebRtcConnectionManager
-from aloha_scripts.aloha_multi_cam import MultiCam
+from aloha_scripts.aloha_multi_cam_async import MultiCam
 
 from pubsub import pub
 
@@ -120,6 +120,6 @@ class TeleOpRobot:
 
 
 if __name__ == '__main__':
-    tele_robot = TeleOpRobot(robot_id='syscon_test', cam='MULTI_CAM', cam_index=[2, 0, 4, 6])
+    tele_robot = TeleOpRobot(robot_id='syscon_aloha_kh', cam='MULTI_CAM', cam_index=[2, 0, 4, 6])
     # tele_robot = TeleOpRobot(robot_id='syscon_test', cam='CV2CAMERA', cam_index=None)
     tele_robot.start()
