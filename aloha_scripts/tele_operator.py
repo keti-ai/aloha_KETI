@@ -70,11 +70,12 @@ class TeleOperator:
                     if 'left' in self.message['msg_body'] and 'right' in self.message['msg_body']:
                         self.remote_robot.send_json(self.message)
                         # print(self.message)
-                        time.sleep(0.03)
+                        time.sleep(0.005)
                         self.msg_init()
 
                 except Exception as e:
                     print(e)
+
 
 
         except KeyboardInterrupt:
@@ -84,5 +85,5 @@ class TeleOperator:
         print('exited!')
 
 if __name__ == '__main__':
-    controller = TeleOperator('syscon_test', '175.126.123.199', 8180)
+    controller = TeleOperator('syscon_aloha_kh', '175.126.123.199', 8180)
     controller.run()
