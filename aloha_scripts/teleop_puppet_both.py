@@ -51,9 +51,9 @@ def teleop():
     global master_gripper_joint_right
 
     """ A standalone function for experimenting with teleoperation. No data recording. """
-    puppet_bot_left = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", robot_name='puppet_left', init_node=True)
+    puppet_bot_left = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", moving_time=2, accel_time=1, robot_name='puppet_left', init_node=True)
     print('passed')
-    puppet_bot_right = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", robot_name='puppet_right', init_node=False)
+    puppet_bot_right = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", moving_time=2, accel_time=1, robot_name='puppet_right', init_node=False)
 
     prep_robots(puppet_bot_left)
     prep_robots(puppet_bot_right)
