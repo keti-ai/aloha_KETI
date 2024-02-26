@@ -150,6 +150,44 @@ All robots will rise to a height that is easy for teleoperation.
 
 The teleoperation will start when the master side gripper is closed.
 
+### Testing tele-operation v2: with control ros node
+
+**Notice**: Before running the commands below, be sure to place all 4 robots in their sleep positions, and open master robot's gripper. 
+All robots will rise to a height that is easy for teleoperation.
+
+Running robots (puppets, and masters). You can start all 4 robots at the same time or start each robot separately.  
+
+    # ROS terminal
+    conda deactivate
+    source /opt/ros/noetic/setup.sh && source ~/interbotix_ws/devel/setup.sh
+
+    # Option 1. place all 4arms robots at at the ready state for teleoperation 
+    roslaunch aloha 4arms_teleop.launch
+    
+    # Option 2. Start puppets and master separately.
+    # i) place PUPPET robots in the ready position.
+    roslaunch aloha puppet_teleop.launch
+    
+    # ii) start cameras nodes
+    roslaunch aloha puppet_ros_cam.launch
+
+    # iii) place MASTER robots in the ready position.
+    roslaunch aloha master_teleop.launch
+    
+Start tele-operation: synchronizing MASTER robot's poses with PUPPET robot's poses:  
+
+    # Right hand terminal
+    conda activate aloha
+    cd ~/interbotix_ws/src/aloha/aloha_scripts
+    python3 robot_controller_node.py right
+    
+    # Left hand terminal
+    conda activate aloha
+    cd ~/interbotix_ws/src/aloha/aloha_scripts
+    python3 robot_controller_node.py left
+
+The teleoperation will start immediately. 
+Please be sure to align the MASTER and the PUPPET robots' position before starting.
 
 ## Example Usages
 
