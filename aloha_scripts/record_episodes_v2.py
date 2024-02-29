@@ -41,8 +41,8 @@ def opening_ceremony_master(master_bot_left, master_bot_right):
     close_thresh = -0.3
     pressed = False
     while not pressed:
-        gripper_pos_left = master_bot_left.get_arm_gripper_positions(master_bot_left)
-        gripper_pos_right = master_bot_left.get_arm_gripper_positions(master_bot_right)
+        gripper_pos_left = master_bot_left.get_arm_gripper_positions()
+        gripper_pos_right = master_bot_left.get_arm_gripper_positions()
         if (gripper_pos_left < close_thresh) and (gripper_pos_right < close_thresh):
             pressed = True
         time.sleep(DT/10)
@@ -52,6 +52,7 @@ def opening_ceremony_master(master_bot_left, master_bot_right):
 
 def opening_ceremony_puppet(puppet_bot_left, puppet_bot_right):
     """ Move all 4 robots to a pose where it is easy to start demonstration """
+    print("DEBUG: opening ceremony puppet")
     # reboot gripper motors, and set operating modes for all motors
     puppet_bot_left.dxl.robot_reboot_motors("single", "gripper", True)
     puppet_bot_left.dxl.robot_set_operating_modes("group", "arm", "position")
@@ -65,12 +66,15 @@ def opening_ceremony_puppet(puppet_bot_left, puppet_bot_right):
 
     torque_on(puppet_bot_left)
     torque_on(puppet_bot_right)
+    print("DEBUG: puppet torque_one")
 
     # move arms to starting position
     start_arm_qpos = START_ARM_POSE[:6]
     move_arms([puppet_bot_left, puppet_bot_right], [start_arm_qpos] * 2, move_time=1.5)
     # move grippers to starting position
     move_grippers([puppet_bot_left, puppet_bot_right], [PUPPET_GRIPPER_JOINT_CLOSE] * 2, move_time=0.5)
+
+    print("DEBUG: puppet ceremony finished")
 
 
 def capture_one_episode(dt, max_timesteps, camera_names, dataset_dir, dataset_name, overwrite):
@@ -82,12 +86,13 @@ def capture_one_episode(dt, max_timesteps, camera_names, dataset_dir, dataset_na
     # master_bot_right = InterbotixManipulatorXS(robot_model="wx250s", group_name="arm", gripper_name="gripper",
     #                                            robot_name=f'master_right', init_node=False)
 
-    master_bot_left = RemoteMasterBot(robot_name=f'master_left', init_node=True)
-    master_bot_right = InterbotixManipulatorXS(robot_model="wx250s", group_name="arm", gripper_name="gripper",
-                                               robot_name=f'master_right', init_node=False)
+    master_bot_left = RemoteMasterBot(robot_name=f'master_left')
+    master_bot_right = RemoteMasterBot(robot_name=f'master_right')
 
-    env = make_real_env(init_node=False, setup_robots=False)
+    print("DEBUG: make real evn")
+    env = make_real_env(init_node=True, setup_robots=False)
 
+    print("DEBUG: make real evn finished")
     # saving dataset
     if not os.path.isdir(dataset_dir):
         os.makedirs(dataset_dir)
@@ -107,6 +112,7 @@ def capture_one_episode(dt, max_timesteps, camera_names, dataset_dir, dataset_na
     actual_dt_history = []
     for t in tqdm(range(max_timesteps)):
         t0 = time.time() #
+        print(f"DEBUG: loop time: {t0}")
         action = get_action_from_joint_states(master_bot_left.joint_states, master_bot_right.joint_states)
         t1 = time.time() #
         ts = env.step(action)
@@ -115,6 +121,7 @@ def capture_one_episode(dt, max_timesteps, camera_names, dataset_dir, dataset_na
         actions.append(action)
         actual_dt_history.append([t0, t1, t2])
 
+    print('loop end')
     # Torque on both master bots
     master_bot_left.torque_on()
     master_bot_right.torque_on()
@@ -148,6 +155,7 @@ def capture_one_episode(dt, max_timesteps, camera_names, dataset_dir, dataset_na
     for cam_name in camera_names:
         data_dict[f'/observations/images/{cam_name}'] = []
 
+    print(f'Begin write data to disk')
     # len(action): max_timesteps, len(time_steps): max_timesteps + 1
     while actions:
         action = actions.pop(0)

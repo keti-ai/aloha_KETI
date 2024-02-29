@@ -13,7 +13,8 @@ class RemoteMasterBot:
         rospy.Subscriber(f'/{self.robot_name}/joint_states', JointState, self._joint_states_updated)
 
     def _joint_states_updated(self, joint_states):
-        self._joint_states = joint_states.position[:6]
+        # print(f'Robot {self.robot_name} joint_states updated: {joint_states}')
+        self._joint_states = joint_states
 
     @property
     def joint_states(self):
