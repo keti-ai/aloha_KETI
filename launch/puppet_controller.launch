@@ -10,6 +10,6 @@
     name="puppet_right_remote_controller"
     pkg="aloha"
     type="robot_controller_node.py"
-    args="left"/>
+    args="right"/>
 
 </launch>
