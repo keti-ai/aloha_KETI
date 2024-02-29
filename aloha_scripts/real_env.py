@@ -151,6 +151,18 @@ def get_action(master_bot_left, master_bot_right):
     return action
 
 
+def get_action_from_joint_states(master_bot_left_joint_states, master_bot_right_joint_states):
+    action = np.zeros(14) # 6 joint + 1 gripper, for two arms
+    # Arm actions
+    action[:6] = master_bot_left_joint_states.position[:6]
+    action[7:7+6] = master_bot_right_joint_states.position[:6]
+    # Gripper actions
+    action[6] = MASTER_GRIPPER_JOINT_NORMALIZE_FN(master_bot_left_joint_states.position[6])
+    action[7+6] = MASTER_GRIPPER_JOINT_NORMALIZE_FN(master_bot_right_joint_states.position[6])
+
+    return action
+
+
 def make_real_env(init_node, setup_robots=True):
     env = RealEnv(init_node, setup_robots)
     return env
